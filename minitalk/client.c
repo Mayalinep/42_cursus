@@ -5,61 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 15:03:54 by mpelage           #+#    #+#             */
-/*   Updated: 2024/12/18 15:30:50 by mpelage          ###   ########.fr       */
+/*   Created: 2024/12/28 17:29:33 by mpelage           #+#    #+#             */
+/*   Updated: 2024/12/28 22:06:24 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minitalk.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+static int	g_sig_received;
 
-void	send_char(int pid, char c)
+int	char_to_bit(char c, int pid)
 {
+	int	i;
 	int	bit_index;
 
 	bit_index = 7;
 	while (bit_index >= 0)
 	{
+		i = 0;
 		if ((c >> bit_index) & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		while (g_sig_received == 0)
+		{
+			if (i == 100)
+			{
+				ft_printf("No signal received.\nExit.\n");
+				exit(1);
+			}
+			i++;
+			usleep(1000);
+		}
+		g_sig_received = 0;
 		bit_index--;
 	}
+	return (0);
 }
 
-void	send_message(int pid, char *message)
+void	signal_handler(int signum)
 {
-	int	i;
+	static int	i;
 
-	i = 0;
-	while (message[i])
-	{
-		send_char(pid, message[i]);
+	g_sig_received = 1;
+	if (signum == SIGUSR2)
 		i++;
-	}
-	send_char(pid, '\0');
+	else if (signum == SIGUSR1)
+		ft_printf("Number of bytes received : %d\n", i / 8);
 }
 
 int	main(int argc, char **argv)
 {
-	int	pid;
+	int					pid;
+	struct sigaction	sa;
+	int					i;
 
 	if (argc != 3)
 	{
-		write(1, "Usage: ./client <PID> <Message>\n", 32);
+		ft_printf("You must write two arguments,");
+		ft_printf(" firts the pid then your message.\nExit.\n");
 		return (1);
 	}
-	pid = atoi(argv[1]);
-	if (pid <= 0)
-	{
-		write(1, "Error: PID must be a positive integer\n", 34);
-		return (1);
-	}
-	send_message(pid, argv[2]);
+	pid = ft_atoi(argv[1]);
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = signal_handler;
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+		ft_printf("Signal error. \n");
+	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+		ft_printf("Signal error.\n");
+	i = 0;
+	while (argv[2][i])
+		char_to_bit(argv[2][i++], pid);
+	char_to_bit('\0', pid);
 	return (0);
 }

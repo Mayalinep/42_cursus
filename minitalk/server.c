@@ -5,45 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 14:12:06 by mpelage           #+#    #+#             */
-/*   Updated: 2024/12/18 15:28:45 by mpelage          ###   ########.fr       */
+/*   Created: 2024/12/28 17:29:01 by mpelage           #+#    #+#             */
+/*   Updated: 2024/12/28 22:18:36 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "minitalk.h"
 
-void	signal_handler(int signal)
+void	bit_to_char(int signum, char *bit)
 {
-	static int	bit_count = 0;
-	static int	character = 0;
+	if (signum == SIGUSR1)
+		*bit = (*bit << 1) | 1;
+	else if (signum == SIGUSR2)
+		*bit = *bit << 1;
+}
 
-	if (signal == SIGUSR1)
+void	handle_lst(t_list **lst, char c)
+{
+	char	*char_ptr;
+	t_list	*new_node;
+
+	char_ptr = malloc(sizeof(char));
+	if (!char_ptr)
+		return ;
+	*char_ptr = c;
+	new_node = ft_lstnew(char_ptr);
+	if (!new_node)
 	{
-		character |= (1 << (7 - bit_count));
-		printf("Signal SIGUSR1 reçu, bit ajouté : 1\n");
+		free(char_ptr);
+		return ;
 	}
-	else if (signal == SIGUSR2)
+	if (*lst == NULL)
+		*lst = new_node;
+	else
+		ft_lstadd_back(lst, new_node);
+}
+
+void	display(t_list *string)
+{
+	while (string)
 	{
-		printf("Signal SIGUSR2 reçu, bit ajouté : 0\n");
+		ft_printf("%c", *(char *)string->content);
+		string = string->next;
 	}
-	bit_count++;
-	printf("Bits reçus : %d\n", bit_count);
-	if (bit_count == 8)
+}
+
+void	signal_handler(int signum, siginfo_t *info, void *context)
+{
+	static int		pid;
+	static int		i;
+	static char		c;
+	static t_list	*string;
+
+	(void)context;
+	if (pid == 0)
+		pid = info->si_pid;
+	bit_to_char(signum, &c);
+	if (++i == 8)
 	{
-		printf("Caractère reconstruit : %c\n", character);
-		write(1, &character, 1);
-		bit_count = 0;
-		character = 0;
+		i = 0;
+		if (!c)
+		{
+			kill(pid, SIGUSR1);
+			pid = 0;
+			display(string);
+			free_lst(&string);
+			write(1, "\n", 1);
+			return ;
+		}
+		handle_lst(&string, c);
+		c = 0;
 	}
+	kill(pid, SIGUSR2);
 }
 
 int	main(void)
 {
-	printf("PID du server : %d\n", getpid());
-	signal(SIGUSR1, signal_handler);
-	signal(SIGUSR2, signal_handler);
+	struct sigaction	sa;
+
+	ft_printf("Server pid :%d\n", getpid());
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	sa.sa_sigaction = signal_handler;
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+		ft_printf("Signal error. \n");
+	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+		ft_printf("Signal error.\n");
 	while (1)
 		pause();
 	return (0);
