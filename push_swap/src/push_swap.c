@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 19:26:59 by mpelage           #+#    #+#             */
-/*   Updated: 2024/12/30 16:22:44 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/01/03 19:07:38 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int handle_arguments(int argc, char **argv, t_stack **stack_a)
     }
     return (1);
 }
+
 void print_stack(t_stack *stack)
 {
     while (stack)
@@ -47,23 +48,44 @@ void print_stack(t_stack *stack)
         stack = stack->next;
     }
 }
+void choose_sort(t_stack **stack_a, t_stack **stack_b, int size)
+{
+    if (size == 2)
+        sort_two(stack_a);
+    else if (size == 3)
+        sort_three(stack_a);
+    else if (size == 4)
+        sort_four(stack_a, stack_b);
+    else if (size == 5)
+        sort_five(stack_a, stack_b);
+    else
+        radix_sort(stack_a, stack_b, size);
+}
+
 
 int main(int argc, char **argv)
 {
     t_stack *stack_a;
     t_stack *stack_b;
+    int size;
 
     stack_a = NULL;
     stack_b = NULL;
-    
+
     if (argc < 2)
+        return (0); // Aucun paramètre, rien à faire
+
+    if (!handle_arguments(argc, argv, &stack_a))
     {
-        print_error("Not enough arguments");
+        free_stack(&stack_a);
+        print_error("Invalid arguments"); // Utilisation de ta fonction
         return (1);
     }
-    if (!handle_arguments(argc, argv, &stack_a))
-        return (1);
-    print_stack(stack_a);
+
+    size = stack_size(stack_a); // Obtenir la taille de la pile
+    if (!is_sorted(&stack_a))  // Vérifier si la pile est déjà triée
+        choose_sort(&stack_a, &stack_b, size);
+
     free_stack(&stack_a);
     return (0);
 }

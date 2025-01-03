@@ -3,25 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   pswap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:01:22 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/02 11:40:44 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/01/03 18:53:14 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "../include/push_swap.h"
 
 void    push_a(t_stack **stack_a, t_stack **stack_b)
 {
     t_stack *tmp;
+
     if (!(*stack_b))
         return ;
 
-    temp = (*stack_b);
+    tmp = (*stack_b);
     (*stack_b) = (*stack_b)->next;
-    temp->next = *stack_a;
-    *stack_a = temp;
+    tmp->next = *stack_a;
+    *stack_a = tmp;
 
     ft_printf("pa\n");
 }
@@ -29,14 +30,14 @@ void    push_a(t_stack **stack_a, t_stack **stack_b)
 void    push_b(t_stack **stack_a, t_stack **stack_b)
 {
     t_stack *tmp;
-    
-    if(!(*stack_a))
+
+    if (!(*stack_a))
         return ;
-    
-    temp = (*stack_a);
+
+    tmp = (*stack_a);
     (*stack_a) = (*stack_a)->next;
-    temp->next = *stack_b;
-    *stack_b = temp;
-    
+    tmp->next = *stack_b;
+    *stack_b = tmp;
+
     ft_printf("pb\n");
 }

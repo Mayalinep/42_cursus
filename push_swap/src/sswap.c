@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sswap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:00:09 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/02 11:14:45 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/01/03 16:58:04 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void swap_b(t_stack **stack_b, int flag)
         ft_printf("sb\n");
 }
 
-vvoid swap_ss(t_stack **stack_a, t_stack **stack_b)
+void swap_ss(t_stack **stack_a, t_stack **stack_b)
 {
     int flag;
 

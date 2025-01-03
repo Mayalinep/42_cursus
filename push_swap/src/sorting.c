@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sorting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 14:59:55 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/02 15:58:36 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/01/03 17:32:25 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "../include/push_swap.h"
 
 void	sort_two(t_stack **stack_a)
 {
@@ -75,4 +75,31 @@ void sort_four(t_stack **stack_a, t_stack **stack_b)
         sort_three(stack_a);
     push_a(stack_a, stack_b);
 }
+void sort_five(t_stack **stack_a, t_stack **stack_b)
+{
+    t_stack *min;
+    int min_value;
+
+    min = find_min(stack_a);
+    min_value = min->data;
+    if ((*stack_a)->data == min_value)
+        push_b(stack_a, stack_b);
+    else if ((*stack_a)->next->data == min_value)
+    {
+        rotate_a(stack_a, 0);
+        push_b(stack_a, stack_b);
+    }
+    else
+    {
+        while ((*stack_a)->data != min_value)
+            reverse_rotate_a(stack_a, 0);
+        push_b(stack_a, stack_b);
+    }
+    if (!is_sorted(stack_a))
+        sort_four(stack_a, stack_b);
+    push_a(stack_a, stack_b);
+}
+
+
+
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+         #
+#    By: maya <maya@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/29 19:27:03 by mpelage           #+#    #+#              #
-#    Updated: 2025/01/02 15:05:33 by mpelage          ###   ########.fr        #
+#    Updated: 2025/01/03 18:31:02 by maya             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PRINTF_DIR = ./ft_printf
 LIBFT_DIR = $(PRINTF_DIR)/libft
 
 # Fichiers sources
-SRC_FILES = error.c libft_mod.c push_swap.c utils.c pswap.c rot_rswap.c rswap.c sswap.c sorting.c
+SRC_FILES = error.c libft_mod.c push_swap.c utils.c pswap.c rot_rswap.c rswap.c sswap.c sorting.c sorting_utils.c sort_radix.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 # Fichiers objets
@@ -34,18 +34,18 @@ CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make -C $(LIBFT_DIR)       # Compile libft.a
-	make -C $(PRINTF_DIR)      # Compile ft_printf
+	$(MAKE) -C $(LIBFT_DIR)       # Compile libft.a
+	$(MAKE) -C $(PRINTF_DIR)      # Compile ft_printf
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)/libft.a $(PRINTF_DIR)/libftprintf.a -o $(NAME)
 
 clean:
-	make clean -C $(LIBFT_DIR)
-	make clean -C $(PRINTF_DIR)
+	$(MAKE) clean -C $(LIBFT_DIR)
+	$(MAKE) clean -C $(PRINTF_DIR)
 	rm -f $(OBJS)
 
 fclean: clean
-	make fclean -C $(LIBFT_DIR)
-	make fclean -C $(PRINTF_DIR)
+	$(MAKE) fclean -C $(LIBFT_DIR)
+	$(MAKE) fclean -C $(PRINTF_DIR)
 	rm -f $(NAME)
 
 re: fclean all

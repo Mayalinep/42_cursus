@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rot_rswap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:14:48 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/02 14:39:48 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/01/03 18:36:42 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "../include/push_swap.h"
 
 void    reverse_rotate_a(t_stack **stack_a, int flag)
 {
