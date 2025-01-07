@@ -1,45 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   sortmore_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 13:39:54 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/07 20:39:24 by mpelage          ###   ########.fr       */
+/*   Created: 2025/01/07 18:30:31 by mpelage           #+#    #+#             */
+/*   Updated: 2025/01/07 19:14:56 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	print_error(void)
-{
-	ft_printf("Error\n");
-	exit(EXIT_FAILURE);
-}
-
-void	free_stack(t_stack **stack)
+t_stack	*find_max(t_stack **pile)
 {
 	t_stack	*temp;
+	t_stack	*max_node;
+	int		max;
 
-	while (*stack)
+	max = INT_MIN;
+	temp = *pile;
+	max_node = NULL;
+	while (temp)
 	{
-		temp = *stack;
-		*stack = (*stack)->next;
-		free(temp);
+		if (temp->data > max)
+		{
+			max = temp->data;
+			max_node = temp;
+		}
+		temp = temp->next;
 	}
-	*stack = NULL;
+	return (max_node);
 }
 
-void	free_split(char **split)
+int	find_half(t_stack **pile, int max, int size)
 {
-	int	i;
+	t_stack	*current;
 
-	i = 0;
-	while (split[i])
+	current = *pile;
+	while (size > 0 && current)
 	{
-		free(split[i]);
-		i++;
+		if (current->data == max)
+			return (1);
+		current = current->next;
+		size--;
 	}
-	free(split);
+	return (0);
 }

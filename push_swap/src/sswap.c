@@ -3,49 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   sswap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:00:09 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/03 16:58:04 by maya             ###   ########.fr       */
+/*   Updated: 2025/01/07 19:29:40 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void swap_a(t_stack **stack_a, int flag)
+void	swap_a(t_stack **stack_a, int flag)
 {
-    t_stack *temp;
+	t_stack	*temp;
 
-    if (!(*stack_a) || !(*stack_a)->next)
-        return;
-    temp = (*stack_a)->next;
-    (*stack_a)->next = temp->next;
-    temp->next = (*stack_a);
-    (*stack_a) = temp;
-    if (flag == 0)
-        ft_printf("sa\n");
+	if (!(*stack_a) || !(*stack_a)->next)
+		return ;
+	temp = (*stack_a)->next;
+	(*stack_a)->next = temp->next;
+	temp->next = (*stack_a);
+	(*stack_a) = temp;
+	if (flag == 0)
+		ft_printf("sa\n");
 }
 
-void swap_b(t_stack **stack_b, int flag)
+void	swap_b(t_stack **stack_b, int flag)
 {
-    t_stack *temp;
+	t_stack	*temp;
 
-    if (!(*stack_b) || !(*stack_b)->next)
-        return;
-    temp = (*stack_b)->next;
-    (*stack_b)->next = temp->next;
-    temp->next = (*stack_b);
-    (*stack_b) = temp;
-    if (flag == 0)
-        ft_printf("sb\n");
+	if (!(*stack_b) || !(*stack_b)->next)
+		return ;
+	temp = (*stack_b)->next;
+	(*stack_b)->next = temp->next;
+	temp->next = (*stack_b);
+	(*stack_b) = temp;
+	if (flag == 0)
+		ft_printf("sb\n");
 }
 
-void swap_ss(t_stack **stack_a, t_stack **stack_b)
+void	swap_ss(t_stack **stack_a, t_stack **stack_b)
 {
-    int flag;
+	int	flag;
 
-    flag = 1; 
-    swap_a(stack_a, flag);
-    swap_b(stack_b, flag);
-    ft_printf("ss\n");
+	flag = 1;
+	swap_a(stack_a, flag);
+	swap_b(stack_b, flag);
+	ft_printf("ss\n");
 }

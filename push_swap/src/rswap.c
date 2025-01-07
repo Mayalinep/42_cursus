@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rswap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:01:14 by mpelage           #+#    #+#             */
-/*   Updated: 2025/01/03 18:36:50 by maya             ###   ########.fr       */
+/*   Updated: 2025/01/07 18:56:30 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	rotate_a(t_stack **stack_a, int flag)
 	*stack_a = (*stack_a)->next;
 	last = *stack_a;
 	while (last->next)
-	{
 		last = last->next;
-	}
 	last->next = temp;
 	temp->next = NULL;
 	if (flag == 0)
@@ -43,23 +41,19 @@ void	rotate_b(t_stack **stack_b, int flag)
 	*stack_b = (*stack_b)->next;
 	last = *stack_b;
 	while (last->next)
-	{
 		last = last->next;
-	}
 	last->next = temp;
 	temp->next = NULL;
 	if (flag == 0)
 		ft_printf("rb\n");
 }
 
-void rotate_rr(t_stack **stack_a, t_stack **stack_b)
+void	rotate_rr(t_stack **stack_a, t_stack **stack_b)
 {
-    int flag;
+	int	flag;
 
-    flag = 1;
-
-    rotate_a(stack_a, flag); 
-    rotate_b(stack_b, flag);
-
-    ft_printf("rr\n");
+	flag = 1;
+	rotate_a(stack_a, flag);
+	rotate_b(stack_b, flag);
+	ft_printf("rr\n");
 }

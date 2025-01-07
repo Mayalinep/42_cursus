@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maya <maya@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/29 19:27:03 by mpelage           #+#    #+#              #
-#    Updated: 2025/01/03 18:31:02 by maya             ###   ########.fr        #
+#    Updated: 2025/01/07 19:31:25 by mpelage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PRINTF_DIR = ./ft_printf
 LIBFT_DIR = $(PRINTF_DIR)/libft
 
 # Fichiers sources
-SRC_FILES = error.c libft_mod.c push_swap.c utils.c pswap.c rot_rswap.c rswap.c sswap.c sorting.c sorting_utils.c sort_radix.c
+SRC_FILES = error.c libft_mod.c push_swap.c utils.c pswap.c rot_rswap.c rswap.c sswap.c sorting.c sorting_utils.c sortmore_utils.c sort_more.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 # Fichiers objets
