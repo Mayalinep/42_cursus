@@ -5,48 +5,60 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/29 19:27:03 by mpelage           #+#    #+#              #
-#    Updated: 2025/01/07 19:31:25 by mpelage          ###   ########.fr        #
+#    Created: 2025/01/08 15:53:01 by mpelage           #+#    #+#              #
+#    Updated: 2025/01/08 16:26:20 by mpelage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Nom du programme final
-NAME = push_swap
+NAME        = push_swap
+CC          = gcc
+CFLAGS      = -Wall -Wextra -Werror
+INCLUDES    = -Iincludes
 
-# Répertoires
-SRC_DIR = ./src
-INCLUDE_DIR = ./include
-PRINTF_DIR = ./ft_printf
-LIBFT_DIR = $(PRINTF_DIR)/libft
 
-# Fichiers sources
-SRC_FILES = error.c libft_mod.c push_swap.c utils.c pswap.c rot_rswap.c rswap.c sswap.c sorting.c sorting_utils.c sortmore_utils.c sort_more.c
-SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+SRCS        = main.c \
+              srcs/moves/push.c \
+              srcs/moves/reverse_rotate.c \
+              srcs/moves/rotate.c \
+              srcs/moves/swap.c \
+              srcs/sorting/sort_large.c \
+              srcs/sorting/sort_small.c \
+              srcs/utils/error.c \
+              srcs/utils/init_stack.c \
+              srcs/utils/stack_utils.c \
+              srcs/utils/utils.c \
+			  
+OBJS        = $(SRCS:.c=.o)
 
-# Fichiers objets
-OBJS = $(SRCS:.c=.o)
+PRINTF_DIR  = ft_printf
+PRINTF_LIB  = libftprintf.a
 
-# Commandes
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR)
 
-# Cible principale
+LIBFT_DIR   = $(PRINTF_DIR)/libft
+LIBFT_LIB   = libft.a
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(MAKE) -C $(LIBFT_DIR)       # Compile libft.a
-	$(MAKE) -C $(PRINTF_DIR)      # Compile ft_printf
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)/libft.a $(PRINTF_DIR)/libftprintf.a -o $(NAME)
+	@echo "Compilation de ft_printf..."
+	$(MAKE) -C $(PRINTF_DIR)
+	@echo "Compilation de push_swap..."
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) \
+		$(PRINTF_DIR)/$(PRINTF_LIB) \
+		$(LIBFT_DIR)/$(LIBFT_LIB) \
+		-o $(NAME)
+	@echo "Terminé : $(NAME) généré."
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	$(MAKE) clean -C $(LIBFT_DIR)
-	$(MAKE) clean -C $(PRINTF_DIR)
 	rm -f $(OBJS)
+	$(MAKE) clean -C $(PRINTF_DIR)
 
 fclean: clean
-	$(MAKE) fclean -C $(LIBFT_DIR)
-	$(MAKE) fclean -C $(PRINTF_DIR)
 	rm -f $(NAME)
+	$(MAKE) fclean -C $(PRINTF_DIR)
 
 re: fclean all
 
